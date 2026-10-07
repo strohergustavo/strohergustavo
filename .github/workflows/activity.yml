@@ -19,7 +19,10 @@ jobs:
       - name: Render SVG
         env:
           GITHUB_TOKEN: ${{ secrets.PROFILE_TOKEN || secrets.GITHUB_TOKEN }}
-        run: python3 scripts/activity.py > assets/activity.svg
+        run: |
+          echo "Personal token configured: ${{ secrets.PROFILE_TOKEN != '' }}"
+          python3 scripts/activity.py > assets/activity.svg
+          grep -o 'aria-label="[^"]*"' assets/activity.svg | head -1
       - name: Commit if changed
         run: |
           git config user.name "github-actions[bot]"
