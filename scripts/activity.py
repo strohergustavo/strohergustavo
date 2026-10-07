@@ -16,6 +16,17 @@ QUERY = """query($login: String!) {
     }
   }
 }"""
+VIEWER_QUERY = """query {
+  viewer {
+    login
+    contributionsCollection {
+      contributionCalendar {
+        totalContributions
+        weeks { contributionDays { date contributionCount contributionLevel } }
+      }
+    }
+  }
+}"""
 
 LEVELS = {
     "NONE": "#151B23",
@@ -28,17 +39,26 @@ SANS = "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, A
 MONO = "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace"
 
 
-def fetch():
+def graphql(query, variables=None):
     req = urllib.request.Request(
         "https://api.github.com/graphql",
-        data=json.dumps({"query": QUERY, "variables": {"login": USER}}).encode(),
+        data=json.dumps({"query": query, "variables": variables or {}}).encode(),
         headers={"Authorization": f"bearer {os.environ['GITHUB_TOKEN']}", "Content-Type": "application/json"},
     )
     with urllib.request.urlopen(req) as resp:
         body = json.load(resp)
     if "errors" in body:
         raise SystemExit(body["errors"])
-    return body["data"]["user"]["contributionsCollection"]["contributionCalendar"]
+    return body["data"]
+
+
+def fetch():
+    # A private profile hides the calendar from everyone else, so when the token
+    # belongs to the profile owner, read it as the viewer instead.
+    data = graphql(VIEWER_QUERY)
+    if data["viewer"]["login"].lower() == USER.lower():
+        return data["viewer"]["contributionsCollection"]["contributionCalendar"]
+    return graphql(QUERY, {"login": USER})["user"]["contributionsCollection"]["contributionCalendar"]
 
 
 def render(cal):
@@ -95,4 +115,6 @@ def render(cal):
 
 if __name__ == "__main__":
     cal = json.load(open(sys.argv[1])) if len(sys.argv) > 1 else fetch()
+    if cal["totalContributions"] == 0:
+        raise SystemExit("Got 0 contributions; keeping the previous graph.")
     sys.stdout.write(render(cal))

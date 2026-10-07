@@ -21,7 +21,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PROFILE_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
           echo "Personal token configured: ${{ secrets.PROFILE_TOKEN != '' }}"
-          python3 scripts/activity.py > assets/activity.svg
+          if python3 scripts/activity.py > "$RUNNER_TEMP/activity.svg"; then
+            mv "$RUNNER_TEMP/activity.svg" assets/activity.svg
+          else
+            echo "::warning::Could not read contributions; kept the previous graph."
+          fi
           grep -o 'aria-label="[^"]*"' assets/activity.svg | head -1
       - name: Commit if changed
         run: |
