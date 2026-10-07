@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="274" viewBox="0 0 1200 274" role="img" aria-label="Toolbox: Python, SQL, Pandas, Apache Spark, Databricks, Jupyter Notebook">
+<style>
+  .sans { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif; } .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace; }
+  .chip { opacity: 0; animation: pop .6s cubic-bezier(.2,.7,.2,1) forwards; }
+  @keyframes pop { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: none } }
+</style>
+<rect width="1200" height="274" rx="18" fill="#0D0D0D"/>
+<rect x=".5" y=".5" width="1199" height="273" rx="18" fill="none" stroke="#222"/>
+<text x="48" y="48" class="mono" font-size="15" fill="#D97757">~/toolbox</text>
+<line x1="48" y1="62" x2="1152" y2="62" stroke="#1F1F1F"/>
+<text x="48" y="103" class="mono" font-size="15" fill="#737373">languages</text>
+<g class="chip" style="animation-delay:0.15s">
+  <rect x="220" y="78" width="102" height="38" rx="9" fill="#151515" stroke="#2A2A2A"/>
+  <circle cx="238" cy="97" r="3.5" fill="#D97757"/>
+  <text x="251" y="103" class="sans" font-size="16" fill="#E5E5E5">Python</text></g>
+<g class="chip" style="animation-delay:0.27s">
+  <rect x="334.4" y="78" width="74" height="38" rx="9" fill="#151515" stroke="#2A2A2A"/>
+  <circle cx="352.4" cy="97" r="3.5" fill="#D97757"/>
+  <text x="365.4" y="103" class="sans" font-size="16" fill="#E5E5E5">SQL</text></g>
+<text x="48" y="161" class="mono" font-size="15" fill="#737373">data</text>
+<g class="chip" style="animation-delay:0.39s">
+  <rect x="220" y="136" width="102" height="38" rx="9" fill="#151515" stroke="#2A2A2A"/>
+  <circle cx="238" cy="155" r="3.5" fill="#D97757"/>
+  <text x="251" y="161" class="sans" font-size="16" fill="#E5E5E5">Pandas</text></g>
+<g class="chip" style="animation-delay:0.51s">
+  <rect x="334.4" y="136" width="159" height="38" rx="9" fill="#151515" stroke="#2A2A2A"/>
+  <circle cx="352.4" cy="155" r="3.5" fill="#D97757"/>
+  <text x="365.4" y="161" class="sans" font-size="16" fill="#E5E5E5">Apache Spark</text></g>
+<g class="chip" style="animation-delay:0.63s">
+  <rect x="505.2" y="136" width="140" height="38" rx="9" fill="#151515" stroke="#2A2A2A"/>
+  <circle cx="523.2" cy="155" r="3.5" fill="#D97757"/>
+  <text x="536.2" y="161" class="sans" font-size="16" fill="#E5E5E5">Databricks</text></g>
+<text x="48" y="219" class="mono" font-size="15" fill="#737373">tools</text>
+<g class="chip" style="animation-delay:0.75s">
+  <rect x="220" y="194" width="196" height="38" rx="9" fill="#151515" stroke="#2A2A2A"/>
+  <circle cx="238" cy="213" r="3.5" fill="#D97757"/>
+  <text x="251" y="219" class="sans" font-size="16" fill="#E5E5E5">Jupyter Notebook</text></g>
+</svg>
