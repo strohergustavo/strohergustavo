@@ -22,7 +22,7 @@ Building on that foundation, I'm now expanding my expertise into **Data Engineer
 
 ### Projects
 
-<a href="https://github.com/strohergustavo/anac-data-platform"><img src="assets/project-anac.svg" width="100%" alt="ANAC Flight Analytics Platform: an end-to-end Lakehouse on Databricks built on Brazil's public civil aviation data. Python 100%." /></a>
+<a href="https://github.com/strohergustavo/anac-data-platform"><img src="assets/project-anac.svg" width="49%" alt="ANAC Flight Analytics Platform: an end-to-end Lakehouse on Databricks built on Brazil's public civil aviation data. Python 100%." /></a>
 
 ---
 
