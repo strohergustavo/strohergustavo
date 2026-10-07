@@ -19,11 +19,11 @@ def render(title, line1, line2, language, percent):
 </style>
 <rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="10" fill="#010409" stroke="#262C36"/>
 <g class="in">
-  <text x="20" y="34" class="sans" font-size="15" font-weight="600" fill="#D97757">{escape(title)}</text>
+  <text x="20" y="34" class="sans" font-size="15" font-weight="600" fill="#D9663E">{escape(title)}</text>
   <text x="{w - 20}" y="34" text-anchor="end" class="sans" font-size="15" fill="#8B949E">↗</text>
   <text x="20" y="62" class="sans" font-size="12.5" fill="#8B949E">{escape(line1)}</text>
   <text x="20" y="80" class="sans" font-size="12.5" fill="#8B949E">{escape(line2)}</text>
-  <circle cx="26" cy="108" r="5" fill="#D97757"/>
+  <circle cx="26" cy="108" r="5" fill="#D9663E"/>
   <text x="37" y="112.5" class="sans" font-size="12.5"><tspan fill="#F0F6FC" font-weight="600">{escape(language)}</tspan><tspan fill="#8B949E"> {percent}%</tspan></text>
 </g>
 </svg>

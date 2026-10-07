@@ -30,10 +30,10 @@ VIEWER_QUERY = """query {
 
 LEVELS = {
     "NONE": "#151B23",
-    "FIRST_QUARTILE": "#4A2A1F",
-    "SECOND_QUARTILE": "#7D4330",
-    "THIRD_QUARTILE": "#B25E42",
-    "FOURTH_QUARTILE": "#D97757",
+    "FIRST_QUARTILE": "#4F271A",
+    "SECOND_QUARTILE": "#7F3B25",
+    "THIRD_QUARTILE": "#AE5032",
+    "FOURTH_QUARTILE": "#D9663E",
 }
 SANS = "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif"
 MONO = "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace"
@@ -84,8 +84,9 @@ def render(cal):
             color = LEVELS.get(day["contributionLevel"], LEVELS["NONE"])
             n = day["contributionCount"]
             label = f'{n} contribution{"s" if n != 1 else ""} on {d:%b %d, %Y}'
+            anim = "" if n == 0 else f' class="f" style="animation-delay:{0.4 + w * 0.03:.2f}s"'
             out.append(
-                f'<rect class="c" style="animation-delay:{w * 0.018:.3f}s" x="{x}" y="{y}" width="{cell}" height="{cell}" rx="4" fill="{color}"><title>{label}</title></rect>'
+                f'<rect{anim} x="{x}" y="{y}" width="{cell}" height="{cell}" rx="4" fill="{color}"><title>{label}</title></rect>'
             )
     for i, name in ((1, "Mon"), (3, "Wed"), (5, "Fri")):
         out.append(f'<text x="48" y="{top + i * step + 12}" class="mono" font-size="13" fill="#737373">{name}</text>')
@@ -101,12 +102,12 @@ def render(cal):
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-label="{total} contributions in the last year">
 <style>
   .sans {{ font-family: {SANS}; }} .mono {{ font-family: {MONO}; }}
-  .c {{ opacity: 0; animation: pop .5s ease-out forwards; }}
-  @keyframes pop {{ from {{ opacity: 0 }} to {{ opacity: 1 }} }}
+  .f {{ animation: grow .6s ease-out both; }}
+  @keyframes grow {{ from {{ fill: #151B23 }} }}
 </style>
 <rect width="{width}" height="{height}" rx="18" fill="#010409"/>
 <rect x=".5" y=".5" width="{width - 1}" height="{height - 1}" rx="18" fill="none" stroke="#1F242B"/>
-<text x="48" y="54" class="sans" font-size="22" font-weight="600" fill="#F5F5F5"><tspan fill="#D97757">{total}</tspan> contributions in the last year</text>
+<text x="48" y="54" class="sans" font-size="22" font-weight="600" fill="#F5F5F5"><tspan fill="#D9663E">{total}</tspan> contributions in the last year</text>
 {chr(10).join(out)}
 {"".join(legend)}
 </svg>
