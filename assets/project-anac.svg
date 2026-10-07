@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="212" viewBox="0 0 1200 212" role="img" aria-label="ANAC Flight Analytics Platform: an end-to-end Lakehouse on Databricks built on Brazil's public civil aviation data. Python 100%.">
+<style>
+  .sans { font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Noto Sans&quot;, Helvetica, Arial, sans-serif; }
+  .in { opacity: 0; animation: fadeUp .9s cubic-bezier(.2,.7,.2,1) forwards; }
+  .d1 { animation-delay: .1s } .d2 { animation-delay: .3s } .d3 { animation-delay: .5s }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
+</style>
+<defs>
+  <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#151B23"/></pattern>
+  <radialGradient id="glow" cx="90%" cy="0%" r="65%"><stop offset="0" stop-color="#D97757" stop-opacity=".18"/><stop offset="1" stop-color="#D97757" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="1200" height="212" rx="18" fill="#010409"/>
+<rect width="1200" height="212" rx="18" fill="url(#grid)"/>
+<rect width="1200" height="212" rx="18" fill="url(#glow)"/>
+<rect x=".5" y=".5" width="1199" height="211" rx="18" fill="none" stroke="#1F242B"/>
+<g class="in d1">
+  <text x="60" y="78" class="sans" font-size="34" font-weight="700" fill="#F0F6FC" letter-spacing="-.6">ANAC Flight Analytics Platform</text>
+  <text x="1140" y="74" text-anchor="end" class="sans" font-size="16" fill="#D97757">View repository ↗</text>
+</g>
+<g class="in d2">
+  <text x="60" y="120" class="sans" font-size="18" fill="#8B949E">An end-to-end Lakehouse on Databricks built on Brazil's public civil aviation data,</text>
+  <text x="60" y="146" class="sans" font-size="18" fill="#8B949E">from raw files to a governed gold layer that serves both BI dashboards and AI agents.</text>
+</g>
+<g class="in d3">
+  <circle cx="67" cy="176" r="6" fill="#D97757"/>
+  <text x="81" y="181.5" class="sans" font-size="15"><tspan fill="#F0F6FC" font-weight="600">Python</tspan><tspan fill="#8B949E"> 100%</tspan></text>
+</g>
+</svg>
