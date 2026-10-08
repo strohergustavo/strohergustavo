@@ -3,9 +3,12 @@ import datetime
 import json
 import os
 import sys
+import urllib.error
 import urllib.request
+from zoneinfo import ZoneInfo
 
 USER = os.environ.get("GH_USER", "strohergustavo")
+TZ = ZoneInfo(os.environ.get("GH_TZ", "America/Sao_Paulo"))
 QUERY = """query($login: String!) {
   user(login: $login) {
     contributionsCollection {
@@ -52,12 +55,80 @@ def graphql(query, variables=None):
     return body["data"]
 
 
+def rest(path):
+    req = urllib.request.Request(
+        f"https://api.github.com{path}",
+        headers={"Authorization": f"bearer {os.environ['GITHUB_TOKEN']}", "Accept": "application/vnd.github+json"},
+    )
+    with urllib.request.urlopen(req) as resp:
+        return json.load(resp)
+
+
+def paged(path):
+    sep = "&" if "?" in path else "?"
+    page = 1
+    while True:
+        items = rest(f"{path}{sep}per_page=100&page={page}")
+        yield from items
+        if len(items) < 100:
+            return
+        page += 1
+
+
+def level(n, peak):
+    if n == 0:
+        return "NONE"
+    return ("FIRST_QUARTILE", "SECOND_QUARTILE", "THIRD_QUARTILE", "FOURTH_QUARTILE")[min(3, (4 * n - 1) // peak)]
+
+
+def from_commits():
+    """Rebuild the calendar from the owner's own commits.
+
+    A private profile makes the GraphQL calendar come back empty, even for the
+    owner's token, so count commits authored by the user in every repository
+    the token can see instead.
+    """
+    today = datetime.datetime.now(TZ).date()
+    start = today - datetime.timedelta(days=364 + (today.weekday() + 1) % 7)
+    since = datetime.datetime.combine(start, datetime.time(), TZ).isoformat()
+    counts = {}
+    try:
+        repos = list(paged("/user/repos?affiliation=owner,collaborator"))
+    except urllib.error.HTTPError:
+        repos = list(paged(f"/users/{USER}/repos"))
+    for repo in repos:
+        try:
+            commits = list(paged(f"/repos/{repo['full_name']}/commits?author={USER}&since={since}"))
+        except urllib.error.HTTPError:
+            continue  # empty or inaccessible repository
+        for c in commits:
+            stamp = datetime.datetime.fromisoformat(c["commit"]["author"]["date"].replace("Z", "+00:00"))
+            day = stamp.astimezone(TZ).date()
+            counts[day] = counts.get(day, 0) + 1
+    print(f"Counted commits in {len(repos)} repositories", file=sys.stderr)
+    peak = max(counts.values(), default=1)
+    weeks, day = [], start
+    while day <= today:
+        week = []
+        for _ in range(7):
+            if day <= today:
+                n = counts.get(day, 0)
+                week.append({"date": day.isoformat(), "contributionCount": n, "contributionLevel": level(n, peak)})
+            day += datetime.timedelta(days=1)
+        weeks.append({"contributionDays": week})
+    return {"totalContributions": sum(counts.values()), "weeks": weeks}
+
+
 def fetch():
     # A private profile hides the calendar from everyone else, so when the token
     # belongs to the profile owner, read it as the viewer instead.
     data = graphql(VIEWER_QUERY)
     if data["viewer"]["login"].lower() == USER.lower():
-        return data["viewer"]["contributionsCollection"]["contributionCalendar"]
+        cal = data["viewer"]["contributionsCollection"]["contributionCalendar"]
+        if cal["totalContributions"] == 0:
+            print("Calendar is empty (private profile); counting commits instead", file=sys.stderr)
+            cal = from_commits()
+        return cal
     return graphql(QUERY, {"login": USER})["user"]["contributionsCollection"]["contributionCalendar"]
 
 
